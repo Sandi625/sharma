@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Sharma Dian Safiri, S.E. — Creative Portfolio & Video Editor</title>
+  <meta name="description" content="Portofolio Kreatif Sharma Dian Safiri, S.E. — Content Creator, Social Media Specialist, Video Editor, & KOL Talent. Pengalaman pegang Galgok, iCare Apple Store, Mak Enak 14.5M+ views, Jims Honey, Yup, dan Rana Studio.">
+  
+  <!-- iOS & Android Web App Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Sharma Porto">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#FDF7F7" id="themeColorMeta">
+  <meta name="format-detection" content="telephone=no">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="deck-mode light-theme">
+
+  <!-- Particle / Sparkle Canvas for JS Animation -->
+  <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
+
+  <!-- Interactive Story Segmented Progress Bar (Top for TikTok/Stories view) -->
+  <div class="story-progress-bar-container" id="storyProgressBars" aria-label="Slide Progress">
+    <!-- Populated by JavaScript: 10 progress segments -->
+  </div>
+
+  <!-- Floating Aesthetic Decorative Flowers (Fixed fill to prevent black circles) -->
+  <div class="floral-decor decor-tl" aria-hidden="true">
+    <svg viewBox="0 0 100 100" class="flower-svg"><path d="M50 0 C60 30 70 40 100 50 C70 60 60 70 50 100 C40 70 30 60 0 50 C30 40 40 30 50 0 Z" fill="currentColor"/></svg>
+  </div>
+  <div class="floral-decor decor-tr" aria-hidden="true">
+    <svg viewBox="0 0 100 100" class="flower-svg"><path d="M50 0 C60 30 70 40 100 50 C70 60 60 70 50 100 C40 70 30 60 0 50 C30 40 40 30 50 0 Z" fill="currentColor"/></svg>
+  </div>
+  <div class="floral-decor decor-bl" aria-hidden="true">
+    <svg viewBox="0 0 100 100" class="flower-svg"><circle cx="50" cy="50" r="10" fill="currentColor"/><circle cx="50" cy="20" r="16" fill="currentColor"/><circle cx="80" cy="50" r="16" fill="currentColor"/><circle cx="50" cy="80" r="16" fill="currentColor"/><circle cx="20" cy="50" r="16" fill="currentColor"/></svg>
+  </div>
+  <div class="floral-decor decor-br" aria-hidden="true">
+    <svg viewBox="0 0 100 100" class="flower-svg"><circle cx="50" cy="50" r="10" fill="currentColor"/><circle cx="50" cy="20" r="16" fill="currentColor"/><circle cx="80" cy="50" r="16" fill="currentColor"/><circle cx="50" cy="80" r="16" fill="currentColor"/><circle cx="20" cy="50" r="16" fill="currentColor"/></svg>
+  </div>
+
+  <!-- Global Header & Navigation -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand-logo" onclick="goToSlide(0)">
+        <div class="logo-mark">
+          <span>SH</span>
+          <span>AR</span>
+          <span>MA</span>
+        </div>
+        <div class="brand-details">
+          <span class="brand-title">SHARMA</span>
+          <span class="brand-sub">Dian Safiri, S.E.</span>
+        </div>
+      </div>
+
+      <!-- Navigation links (Desktop & Tablet) -->
+      <nav class="nav-menu" id="navMenu">
+        <button class="nav-link active" data-slide="0">Cover</button>
+        <button class="nav-link" data-slide="1">About Me</button>
+        <button class="nav-link" data-slide="2">Skills & Tools</button>
+        <button class="nav-link" data-slide="3">Layanan</button>
+        <button class="nav-link" data-slide="4">Experience</button>
+        <button class="nav-link" data-slide="5">Social Media</button>
+        <button class="nav-link" data-slide="6">Mega Viral</button>
+        <button class="nav-link" data-slide="7">Video Editing</button>
+        <button class="nav-link" data-slide="8">KOL & Endorse</button>
+        <button class="nav-link" data-slide="9">Contact</button>
+      </nav>
+
+      <!-- View Controls, Theme Switch & Action -->
+      <div class="header-actions">
+        <!-- Theme Toggle Button (Light / Dark Mode) -->
+        <button id="themeToggleBtn" class="pill-btn theme-toggle-btn glow-hover" title="Ganti Mode Gelap / Terang (Android & iOS)">
+          <i class="fa-solid fa-moon" id="themeIcon"></i>
+          <span class="theme-text" id="themeText">Gelap</span>
+        </button>
+
+        <!-- View Mode Toggle Button (Slide Deck vs Web Scroll) -->
+        <button id="viewToggleBtn" class="pill-btn mode-toggle-btn glow-hover" title="Ganti Tampilan (Slide Deck vs Web Scroll)">
+          <i class="fa-solid fa-layer-group"></i>
+          <span id="viewToggleText">Mode Web</span>
+        </button>
+
+        <!-- WhatsApp CTA (Desktop - Mobile uses bottom dock) -->
+        <a href="https://wa.me/6281252037392?text=Halo%20Sharma,%20saya%20tertarik%20bekerjasama" target="_blank" class="pill-btn cta-btn glow-hover desktop-only-btn" id="headerCtaBtn">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span class="cta-text">Hubungi</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Infinite Marquee Bar with Hover Pause & Gradient Glow -->
+    <div class="header-marquee-wrapper" id="headerMarquee">
+      <div class="marquee-track">
+        <div class="marquee-content">
+          <span class="marquee-tag gradient-pill"><i class="fa-solid fa-scissors"></i> JASA EDITING VIDEO</span>
+          <span class="marquee-tag"><i class="fa-solid fa-fire"></i> 14.5M+ & 10.2M+ REELS VIEWS</span>
+          <span class="marquee-tag gradient-pill"><i class="fa-solid fa-mug-saucer"></i> PEGAN G GALGOK (@galgok.id)</span>
+          <span class="marquee-tag"><i class="fa-brands fa-apple"></i> PEGAN G iCARE APPLE STORE</span>
+          <span class="marquee-tag gradient-pill"><i class="fa-solid fa-bag-shopping"></i> JIMS HONEY ENDORSE</span>
+          <span class="marquee-tag"><i class="fa-solid fa-credit-card"></i> APLIKASI YUP PAYLATER</span>
+          <span class="marquee-tag gradient-pill"><i class="fa-solid fa-camera"></i> RANA STUDIO</span>
+          <span class="marquee-tag"><i class="fa-solid fa-sparkles"></i> TOOLS: CAPCUT • MEITU • LIGHTROOM • WINK</span>
+          <span class="marquee-tag gradient-pill"><i class="fa-solid fa-graduation-cap"></i> SHARMA DIAN SAFIRI, S.E.</span>
+        </div>
+        <!-- Duplicated for seamless infinite loop -->
+        <div class="marquee-content" aria-hidden="true">
+          <span class="marquee-tag gradient-pill"><i class="fa-solid fa-scissors"></i> JASA EDITING VIDEO</span>
+          <span class="marquee-tag"><i class="fa-solid fa-fire"></i> 14.5M+ & 10.2M+ REELS VIEWS</span>
+          <span class="marquee-tag gradient-pill"><i class="fa-solid fa-mug-saucer"></i> PEGAN G GALGOK (@galgok.id)</span>
+          <span class="marquee-tag"><i class="fa-brands fa-apple"></i> PEGAN G iCARE APPLE STORE</span>
+          <span class="marquee-tag gradient-pill"><i class="fa-solid fa-bag-shopping"></i> JIMS HONEY ENDORSE</span>
+          <span class="marquee-tag"><i class="fa-solid fa-credit-card"></i> APLIKASI YUP PAYLATER</span>
+          <span class="marquee-tag gradient-pill"><i class="fa-solid fa-camera"></i> RANA STUDIO</span>
+          <span class="marquee-tag"><i class="fa-solid fa-sparkles"></i> TOOLS: CAPCUT • MEITU • LIGHTROOM • WINK</span>
+          <span class="marquee-tag gradient-pill"><i class="fa-solid fa-graduation-cap"></i> SHARMA DIAN SAFIRI, S.E.</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Presentation Deck Container -->
+  <main class="presentation-wrapper" id="presentationWrapper">
+
+    <!-- Mobile Screen Tap Navigation Zones (Left/Right Tap like IG Stories/TikTok) -->
+    <div class="mobile-tap-zone tap-left" id="tapLeft" title="Slide Sebelumnya" aria-hidden="true"></div>
+    <div class="mobile-tap-zone tap-right" id="tapRight" title="Slide Selanjutnya" aria-hidden="true"></div>
+
+    <!-- Floating Interactive Edge Navigation with Hover Preview Animation -->
+    <button class="slide-hover-nav slide-hover-prev" id="edgePrevBtn" aria-label="Slide Sebelumnya" onclick="prevSlide()">
+      <span class="nav-arrow-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></span>
+      <span class="nav-hover-tooltip" id="edgePrevTooltip">
+        <span class="tooltip-tag">Sebelumnya</span>
+        <span class="tooltip-title" id="edgePrevTitle">Cover Portofolio</span>
+      </span>
+    </button>
+
+    <button class="slide-hover-nav slide-hover-next" id="edgeNextBtn" aria-label="Slide Selanjutnya" onclick="nextSlide()">
+      <span class="nav-hover-tooltip" id="edgeNextTooltip">
+        <span class="tooltip-tag">Selanjutnya</span>
+        <span class="tooltip-title" id="edgeNextTitle">About Me & Profil</span>
+      </span>
+      <span class="nav-arrow-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+    </button>
+
+    <!-- ================= SLIDE 1: COVER (Reference Matched Aesthetic Deck) ================= -->
+    <section class="slide-section active" id="slide-0" data-index="0">
+      <!-- Aesthetic Deck Decorative Elements matching reference -->
+      <div class="ref-deck-decor" aria-hidden="true">
+        <div class="ref-deck-band"></div>
+        <div class="ref-play-watermark"><i class="fa-solid fa-play"></i></div>
+        <div class="ref-sticker sticker-butterfly"><i class="fa-solid fa-feather-pointed"></i></div>
+        <div class="ref-sticker sticker-flower-1"><i class="fa-solid fa-clover"></i></div>
+        <div class="ref-sticker sticker-flower-2"><i class="fa-solid fa-sparkles"></i></div>
+      </div>
+
+      <div class="slide-content cover-slide-layout ref-cover-layout">
+        <div class="cover-text-col ref-text-col">
+          <div class="ref-hero-eyebrow">
+            <span class="ref-eyebrow-text">CREATIVE</span>
+          </div>
+          <h1 class="ref-hero-title">
+            PORTOFOLIO
+          </h1>
+          <div class="ref-title-line"></div>
+
+          <div class="ref-author-box">
+            <h2 class="ref-author-name">SHARMA DIAN SAFIRI, S.E.</h2>
+            <div class="ref-role-tags">
+              <span class="ref-role-chip"><i class="fa-solid fa-video"></i> Content Creator</span>
+              <span class="ref-role-chip"><i class="fa-solid fa-scissors"></i> Video Editor</span>
+              <span class="ref-role-chip"><i class="fa-solid fa-chart-line"></i> Social Media Officer</span>
+              <span class="ref-role-chip"><i class="fa-solid fa-star"></i> KOL Talent</span>
+            </div>
+          </div>
+
+          <!-- Reference Search Pill: 'Temukan yang serupa >' -->
+          <div class="ref-search-pill glow-hover" onclick="goToSlide(6)" title="Lihat Bukti Viral 14.5M+ Views">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <span class="search-text">Temukan Video Viral 14.5M+ Views</span>
+            <i class="fa-solid fa-chevron-right search-chevron"></i>
+          </div>
+
+          <p class="ref-hero-caption">
+            "Dedikasi dan konsistensi di industri konten digital — Mengkreasikan video berkarakter, strategi visual yang memikat, dan video viral dengan total pencapaian lebih dari <strong>25 Juta+ Views</strong>."
+          </p>
+
+          <div class="cover-cta-row ref-cta-row">
+            <button class="btn btn-primary gradient-hover-btn" onclick="goToSlide(1)">
+              Buka Portofolio <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            <button class="btn btn-outline glow-hover" onclick="goToSlide(7)">
+              <i class="fa-solid fa-scissors"></i> Jasa Editing
+            </button>
+            <a href="https://wa.me/6281252037392" target="_blank" rel="noopener noreferrer" class="btn btn-outline glow-hover">
+              <i class="fa-brands fa-whatsapp"></i> Chat WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <!-- 1. DESKTOP / WEB VISUAL: Foto Elegan Card Penuh + Floating Badges (Versi Web yang Besar & Gagah) -->
+        <div class="cover-visual-col desktop-cover-visual">
+          <div class="portrait-card-wrapper">
+            <div class="portrait-card main-portrait interactive-glow-card">
+              <img src="sharma/4.jpeg" alt="Sharma Dian Safiri, S.E." class="portrait-img">
+              <div class="portrait-tag">
+                <span class="tag-dot"></span> Available for Projects & Editing
+              </div>
+            </div>
+            <div class="floating-badge badge-1 interactive-glow-card">
+              <span class="badge-number counter-anim" data-target="14500000">14.5M+</span>
+              <span class="badge-label">Top Reel Views</span>
+            </div>
+            <div class="floating-badge badge-2 interactive-glow-card">
+              <span class="badge-icon"><i class="fa-solid fa-award"></i></span>
+              <div>
+                <span class="badge-bold">Sharma, S.E.</span>
+                <span class="badge-sub">Sarjana Ekonomi</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. MOBILE VISUAL: Foto Cutout Transparan + TikTok Interaction Sidebar (Versi Mobile Estetik Sesuai Referensi) -->
+        <div class="cover-visual-col mobile-cover-visual">
+          <div class="ref-cutout-container">
+            <img src="sharma/sharma_cutout.png" alt="Sharma Dian Safiri, S.E." class="ref-cutout-img">
+
+            <div class="ref-tiktok-sidebar">
+              <a href="https://www.tiktok.com/@four.febb" target="_blank" rel="noopener noreferrer" class="ref-tiktok-avatar" title="Kunjungi TikTok @four.febb">
+                <img src="sharma/4.jpeg" alt="Sharma TikTok" class="ref-avatar-img">
+                <span class="ref-plus-badge"><i class="fa-solid fa-plus"></i></span>
+              </a>
+
+              <div class="ref-tiktok-action" title="14.5 Juta+ Likes & Top Reel">
+                <div class="ref-action-icon heart-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#fe2c55"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </div>
+                <span class="ref-action-count">14.5M</span>
+              </div>
+
+              <div class="ref-tiktok-action" title="Total Pencapaian 25M+ Views">
+                <div class="ref-action-icon">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="#ffffff"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+                </div>
+                <span class="ref-action-count">25M+</span>
+              </div>
+
+              <a href="https://wa.me/6281252037392" target="_blank" rel="noopener noreferrer" class="ref-tiktok-action" title="Hubungi Sharma via WhatsApp">
+                <div class="ref-action-icon">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="#ffffff"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+                </div>
+                <span class="ref-action-count">Chat</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 2: ABOUT ME ================= -->
+    <section class="slide-section" id="slide-1" data-index="1">
+      <div class="slide-content about-slide-layout">
+        <div class="about-visual-col">
+          <div class="photo-frame-curved interactive-glow-card">
+            <img src="sharma/5.jpeg" alt="Sharma Wisuda Sarjana Ekonomi" class="about-photo">
+          </div>
+          <!-- External badge placed cleanly BELOW the photo so it never covers Sharma's face -->
+          <div class="photo-caption-badge-external interactive-glow-card">
+            <i class="fa-solid fa-graduation-cap"></i> Sharma Dian Safiri, S.E.
+          </div>
+        </div>
+        <div class="about-text-col">
+          <div class="section-tag">ABOUT ME</div>
+          <h2 class="slide-title">HELLO! <br><span class="highlight">WELCOME TO MY PORTFOLIO</span></h2>
+          <div class="bio-paragraphs">
+            <p>
+              Halo! Saya <strong>Sharma Dian Safiri, S.E.</strong>, seorang <em>Content Creator</em>, <em>Video Editor</em>, dan <em>Social Media Specialist</em> lulusan Sarjana Ekonomi (S.E.). Menggabungkan pemahaman strategi bisnis, analisa tren, serta kepekaan estetika visual untuk memproduksi konten kreatif yang berdampak nyata.
+            </p>
+            <p>
+              Berpengalaman dalam mengelola akun media sosial dari nol, menyusun <em>content plan & editorial calendar</em>, produksi video pendek (*short-form content* TikTok & Reels), *talent on-camera*, hingga evaluasi analitik performa.
+            </p>
+          </div>
+          
+          <div class="highlights-grid">
+            <div class="hl-item interactive-glow-card">
+              <div class="hl-icon"><i class="fa-solid fa-bullseye"></i></div>
+              <div class="hl-info">
+                <h4>Data-Driven & Viral Strategy</h4>
+                <p>Memahami algoritma, hook retention 3 detik pertama, dan formula konten yang memicu jutaan interaksi.</p>
+              </div>
+            </div>
+            <div class="hl-item interactive-glow-card">
+              <div class="hl-icon"><i class="fa-solid fa-clapperboard"></i></div>
+              <div class="hl-info">
+                <h4>End-to-End Production</h4>
+                <p>Dari ideasi konsep, naskah POV, pengambilan video (shooting), acting, editing, hingga evaluasi insight.</p>
+              </div>
+            </div>
+            <div class="hl-item interactive-glow-card">
+              <div class="hl-icon"><i class="fa-solid fa-briefcase"></i></div>
+              <div class="hl-info">
+                <h4>Multi-Industry Experience</h4>
+                <p>Menangani brand F&B kuliner, ritel oleh-oleh legendaris, premium gadget/Apple store, hingga fashion.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 3: SKILLS & TOOLS ================= -->
+    <section class="slide-section" id="slide-2" data-index="2">
+      <div class="slide-content skills-slide-layout">
+        <div class="section-header-centered">
+          <div class="section-tag">CAPABILITIES</div>
+          <h2 class="slide-title">PERSONAL <span class="highlight">SKILLS & TOOLS</span></h2>
+          <p class="section-subtitle">Kombinasi keahlian interpersonal, teknis produksi, dan aplikasi editing profesional yang saya gunakan sehari-hari.</p>
+        </div>
+
+        <div class="skills-grid-wrapper">
+          <!-- Soft Skills Column -->
+          <div class="skills-card interactive-glow-card">
+            <div class="card-header">
+              <div class="card-icon"><i class="fa-solid fa-heart"></i></div>
+              <h3 class="card-heading">SOFT SKILLS</h3>
+            </div>
+            <ul class="skills-pill-list">
+              <li class="glow-hover"><i class="fa-solid fa-check"></i> Public Speaking & On-Camera Talent</li>
+              <li class="glow-hover"><i class="fa-solid fa-check"></i> Creative Storytelling & POV Directing</li>
+              <li class="glow-hover"><i class="fa-solid fa-check"></i> Interpersonal & Team Collaboration</li>
+              <li class="glow-hover"><i class="fa-solid fa-check"></i> Time Management & Deadline Discipline</li>
+              <li class="glow-hover"><i class="fa-solid fa-check"></i> Adaptability & Trend Spotting</li>
+              <li class="glow-hover"><i class="fa-solid fa-check"></i> Problem Solving & Creative Thinking</li>
+            </ul>
+          </div>
+
+          <!-- Hard Skills Column -->
+          <div class="skills-card interactive-glow-card">
+            <div class="card-header">
+              <div class="card-icon"><i class="fa-solid fa-sliders"></i></div>
+              <h3 class="card-heading">HARD SKILLS</h3>
+            </div>
+            <ul class="skills-pill-list">
+              <li class="glow-hover"><i class="fa-solid fa-check"></i> <strong>Jasa Video Editing</strong> (Reels, TikTok, Shorts)</li>
+              <li class="glow-hover"><i class="fa-solid fa-check"></i> Social Media Content Planning & Curation</li>
+              <li class="glow-hover"><i class="fa-solid fa-check"></i> Creative Copywriting & Scriptwriting</li>
+              <li class="glow-hover"><i class="fa-solid fa-check"></i> Color Grading & Aesthetic Tone Retouching</li>
+              <li class="glow-hover"><i class="fa-solid fa-check"></i> Motion Captioning & Typography</li>
+              <li class="glow-hover"><i class="fa-solid fa-check"></i> Social Media Insights & Metric Analytics</li>
+            </ul>
+          </div>
+
+          <!-- Tools Column (CapCut, Meitu, Lightroom, Wink, Canva, Photoroom) -->
+          <div class="skills-card tools-card interactive-glow-card">
+            <div class="card-header">
+              <div class="card-icon"><i class="fa-solid fa-toolbox"></i></div>
+              <h3 class="card-heading">TOOLS OF CHOICE</h3>
+            </div>
+            <div class="tools-grid-icons">
+              <div class="tool-item glow-hover">
+                <div class="tool-icon-box capcut-box">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+                <span class="tool-name">CapCut</span>
+                <span class="tool-desc">Video Editing & Pacing</span>
+              </div>
+              <div class="tool-item glow-hover">
+                <div class="tool-icon-box meitu-box">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <span class="tool-name">Meitu</span>
+                <span class="tool-desc">Beauty & Retouching</span>
+              </div>
+              <div class="tool-item glow-hover">
+                <div class="tool-icon-box lightroom-box">
+                  <span class="lr-text">Lr</span>
+                </div>
+                <span class="tool-name">Lightroom</span>
+                <span class="tool-desc">Color Grading Tone</span>
+              </div>
+              <div class="tool-item glow-hover">
+                <div class="tool-icon-box wink-box">
+                  <i class="fa-solid fa-eye"></i>
+                </div>
+                <span class="tool-name">Wink</span>
+                <span class="tool-desc">AI Video Enhancer HD</span>
+              </div>
+              <div class="tool-item glow-hover">
+                <div class="tool-icon-box canva-box">
+                  <span class="canva-text">Canva</span>
+                </div>
+                <span class="tool-name">Canva</span>
+                <span class="tool-desc">Graphic & Layout</span>
+              </div>
+              <div class="tool-item glow-hover">
+                <div class="tool-icon-box photoroom-box">
+                  <i class="fa-solid fa-crop-simple"></i>
+                </div>
+                <span class="tool-name">Photoroom</span>
+                <span class="tool-desc">Cutout & Mockup</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 4: SERVICES ================= -->
+    <section class="slide-section" id="slide-3" data-index="3">
+      <div class="slide-content services-slide-layout">
+        <div class="section-header-centered">
+          <div class="section-tag">SOLUTIONS & SERVICES</div>
+          <h2 class="slide-title">APA YANG BISA SAYA <span class="highlight">BANTU UNTUK BRAND ANDA?</span></h2>
+          <p class="section-subtitle">Solusi terintegrasi mulai dari jasa editing video, talent on-cam, hingga pengelolaan akun media sosial.</p>
+        </div>
+
+        <div class="services-cards-grid">
+          <!-- Service 1: Jasa Editing Video -->
+          <div class="service-box featured interactive-glow-card">
+            <div class="featured-ribbon animated-gradient-badge">POPULER & BEST SELLER</div>
+            <div class="service-icon"><i class="fa-solid fa-scissors"></i></div>
+            <h3 class="service-title">Jasa Editing Video Pendek</h3>
+            <p class="service-tagline">Reels Instagram • TikTok • YouTube Shorts</p>
+            <p class="service-description">
+              Mengubah rekaman mentah menjadi video yang menghanyutkan dengan ritme (*pacing*) dinamis, hook 3 detik pertama yang memikat, sound design selaras tren, caption teks animasi, dan color grading estetis.
+            </p>
+            <ul class="service-features">
+              <li><i class="fa-solid fa-circle-check"></i> Dynamic Cuts & Trend-Synced Audio</li>
+              <li><i class="fa-solid fa-circle-check"></i> Subtitle & Animated Typography</li>
+              <li><i class="fa-solid fa-circle-check"></i> AI Video Enhancement (Wink & Meitu)</li>
+              <li><i class="fa-solid fa-circle-check"></i> Color Grading Khas (Clean, Warm, Aesthetic)</li>
+            </ul>
+            <a href="https://wa.me/6281252037392?text=Halo%20Sharma,%20saya%20ingin%20menggunakan%20Jasa%20Editing%20Video..." target="_blank" class="service-btn gradient-hover-btn">
+              Pesan Jasa Editing <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+
+          <!-- Service 2: Talent On-Cam & Creator -->
+          <div class="service-box interactive-glow-card">
+            <div class="service-icon"><i class="fa-solid fa-camera-retro"></i></div>
+            <h3 class="service-title">Content Talent & Creator</h3>
+            <p class="service-tagline">On-Camera Host • Acting POV • Review</p>
+            <p class="service-description">
+              Tampil profesional di depan kamera sebagai model, host perkenalan produk, atau talent dalam video sketsa komedi dan POV yang natural dan mudah disukai penonton.
+            </p>
+            <ul class="service-features">
+              <li><i class="fa-solid fa-circle-check"></i> Store / Cafe Visit & Ambience Tour</li>
+              <li><i class="fa-solid fa-circle-check"></i> Natural Product Review & Unboxing</li>
+              <li><i class="fa-solid fa-circle-check"></i> Relatable Office/Customer POV Acting</li>
+              <li><i class="fa-solid fa-circle-check"></i> Voice Over (VO) yang jelas dan bersahabat</li>
+            </ul>
+            <a href="https://wa.me/6281252037392?text=Halo%20Sharma,%20saya%20butuh%20Talent%20/%20Content%20Creator..." target="_blank" class="service-btn glow-hover">
+              Booking Talent <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+
+          <!-- Service 3: Social Media Management -->
+          <div class="service-box interactive-glow-card">
+            <div class="service-icon"><i class="fa-solid fa-chart-pie"></i></div>
+            <h3 class="service-title">Social Media Management</h3>
+            <p class="service-tagline">End-to-End Account Growth & Maintenance</p>
+            <p class="service-description">
+              Pengelolaan menyeluruh akun Instagram & TikTok brand Anda, mulai dari penyusunan pilar konten mingguan/bulanan, eksekusi visual feed, hingga analisis insight.
+            </p>
+            <ul class="service-features">
+              <li><i class="fa-solid fa-circle-check"></i> Monthly Content Calendar & Ideation</li>
+              <li><i class="fa-solid fa-circle-check"></i> Feed Curation & Aesthetic Grid</li>
+              <li><i class="fa-solid fa-circle-check"></i> Copywriting & Hashtag Optimization</li>
+              <li><i class="fa-solid fa-circle-check"></i> Monthly Analytics & Growth Reporting</li>
+            </ul>
+            <a href="https://wa.me/6281252037392?text=Halo%20Sharma,%20saya%20ingin%20konsultasi%20pengelolaan%20Social%20Media..." target="_blank" class="service-btn glow-hover">
+              Konsultasi Brand <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 5: WORK EXPERIENCE & CLIENTS ================= -->
+    <section class="slide-section" id="slide-4" data-index="4">
+      <div class="slide-content experience-slide-layout">
+        <div class="section-header-centered">
+          <div class="section-tag">TRACK RECORD</div>
+          <h2 class="slide-title">BRAND & CLIENT <span class="highlight">EXPERIENCE</span></h2>
+          <p class="section-subtitle">Daftar brand yang pernah dan sedang dipercayakan kepada saya untuk konten, video, dan social media management.</p>
+        </div>
+
+        <div class="experience-timeline-grid">
+          <!-- Galgok (Active) -->
+          <div class="brand-exp-card active-brand interactive-glow-card">
+            <div class="brand-status-tag"><i class="fa-solid fa-circle-dot"></i> Sedang Berjalan (Active)</div>
+            <div class="brand-top-row">
+              <div class="brand-avatar-box">
+                <i class="fa-solid fa-mug-saucer"></i>
+              </div>
+              <div class="brand-text-block">
+                <h3 class="brand-title">Galgok Coffee & Eatery</h3>
+                <span class="brand-handle">@galgok.id • Banyuwangi</span>
+              </div>
+            </div>
+            <p class="brand-desc">
+              Menangani strategi konten dan video Reels kafe hits di Banyuwangi. Memproduksi video sketsa dan menu rahasia yang menghasilkan <strong>103rb+ views</strong> serta interaksi pengunjung yang tinggi.
+            </p>
+            <div class="brand-badges">
+              <span class="glow-hover">Short-form Video</span>
+              <span class="glow-hover">Script & POV</span>
+              <span class="glow-hover">Content Editing</span>
+            </div>
+          </div>
+
+          <!-- iCare Apple Store (Active) -->
+          <div class="brand-exp-card active-brand interactive-glow-card">
+            <div class="brand-status-tag"><i class="fa-solid fa-circle-dot"></i> Sedang Berjalan (Active)</div>
+            <div class="brand-top-row">
+              <div class="brand-avatar-box icare-accent">
+                <i class="fa-brands fa-apple"></i>
+              </div>
+              <div class="brand-text-block">
+                <h3 class="brand-title">iCare Store & Service</h3>
+                <span class="brand-handle">@icare_applestore • Verified (58.8k)</span>
+              </div>
+            </div>
+            <p class="brand-desc">
+              Pusat penjualan dan service produk Apple terkemuka di Banyuwangi. Mengonsep dan mengeksekusi konten POV keseharian tim kantor/toko, unboxing, dan edukasi seputar iPhone.
+            </p>
+            <div class="brand-badges">
+              <span class="glow-hover">Viral POV Series</span>
+              <span class="glow-hover">Product Showcase</span>
+              <span class="glow-hover">Talent Directing</span>
+            </div>
+          </div>
+
+          <!-- Mak Enak Indonesia (Major Highlight) -->
+          <div class="brand-exp-card highlight-brand interactive-glow-card">
+            <div class="brand-status-tag viral-tag"><i class="fa-solid fa-fire"></i> Mega Viral Achievement</div>
+            <div class="brand-top-row">
+              <div class="brand-avatar-box makenak-accent">
+                <i class="fa-solid fa-cookie-bite"></i>
+              </div>
+              <div class="brand-text-block">
+                <h3 class="brand-title">Mak Enak Indonesia</h3>
+                <span class="brand-handle">@makenakindonesia • Jember</span>
+              </div>
+            </div>
+            <p class="brand-desc">
+              Produsen kue kacang legendaris dan pusat oleh-oleh khas Jember. Berhasil memecahkan rekor konten viral dengan total lebih dari <strong>25 JUTA+ VIEWS</strong> (14.5M dan 10.2M views).
+            </p>
+            <div class="brand-badges">
+              <span class="glow-hover">14.5M Views Reel</span>
+              <span class="glow-hover">10.2M Views Reel</span>
+              <span class="glow-hover">Massive Reach</span>
+            </div>
+          </div>
+
+          <!-- Atmosphere & Sego Sambel -->
+          <div class="brand-exp-card interactive-glow-card">
+            <div class="brand-status-tag"><i class="fa-solid fa-check"></i> Project Portfolio</div>
+            <div class="brand-top-row">
+              <div class="brand-avatar-box">
+                <i class="fa-solid fa-utensils"></i>
+              </div>
+              <div class="brand-text-block">
+                <h3 class="brand-title">Atmosphere & Sego Sambel</h3>
+                <span class="brand-handle">@atmospherecoffeejember & Mak Enak Group</span>
+              </div>
+            </div>
+            <p class="brand-desc">
+              Pembuatan konten promosi makanan, kopi, dan vibes tempat makan untuk cabang Jember dengan tone yang menarik dan menggugah selera.
+            </p>
+            <div class="brand-badges">
+              <span class="glow-hover">Barista POV</span>
+              <span class="glow-hover">F&B Ambience</span>
+              <span class="glow-hover">Customer Hook</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Collaborations Strip -->
+        <div class="collab-strip interactive-glow-card">
+          <span class="collab-strip-title">Brand Collaborations, Endorsements & Creative Projects:</span>
+          <div class="collab-logos">
+            <span class="collab-pill glow-hover"><i class="fa-solid fa-camera"></i> Rana Studio</span>
+            <span class="collab-pill glow-hover"><i class="fa-solid fa-credit-card"></i> Aplikasi Yup (Paylater)</span>
+            <span class="collab-pill glow-hover"><i class="fa-solid fa-bag-shopping"></i> Jims Honey</span>
+            <span class="collab-pill glow-hover"><i class="fa-solid fa-heart"></i> Bostera Prewedding</span>
+            <span class="collab-pill glow-hover"><i class="fa-solid fa-building"></i> Talent Management</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 6: SOCIAL MEDIA MANAGEMENT SHOWCASE ================= -->
+    <section class="slide-section" id="slide-5" data-index="5">
+      <div class="slide-content social-slide-layout">
+        <div class="section-header-centered">
+          <div class="section-tag">PORTFOLIO PROJECT</div>
+          <h2 class="slide-title">MANAGE SOCIAL MEDIA <span class="highlight">ACCOUNTS</span></h2>
+          <p class="section-subtitle">Tampilan feed terkurasi, Reels berseri, dan dashboard profesional yang membuktikan konsistensi performa.</p>
+        </div>
+
+        <div class="phone-mockups-carousel">
+          <!-- Phone 1: Galgok -->
+          <div class="phone-item" onclick="openLightbox('sharma/9.jpeg', 'Galgok Coffee & Eatery - Reels Showcase & 103rb Views')">
+            <div class="phone-frame interactive-glow-card">
+              <div class="phone-notch"></div>
+              <img src="sharma/9.jpeg" alt="Galgok Instagram Feeds & Reels" class="phone-screen">
+              <div class="phone-overlay">
+                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                <span>Klik untuk Memperbesar</span>
+              </div>
+            </div>
+            <div class="phone-label">
+              <strong>@galgok.id</strong>
+              <span>Coffee & Eatery (103rb views)</span>
+            </div>
+          </div>
+
+          <!-- Phone 2: iCare Apple Store -->
+          <div class="phone-item" onclick="openLightbox('sharma/10.jpeg', 'iCare Store & Service - Verified 58.8k Followers')">
+            <div class="phone-frame interactive-glow-card">
+              <div class="phone-notch"></div>
+              <img src="sharma/10.jpeg" alt="iCare Apple Store Instagram Feeds" class="phone-screen">
+              <div class="phone-overlay">
+                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                <span>Klik untuk Memperbesar</span>
+              </div>
+            </div>
+            <div class="phone-label">
+              <strong>@icare_applestore</strong>
+              <span>Apple Store & Service (58.8k)</span>
+            </div>
+          </div>
+
+          <!-- Phone 3: Mak Enak Indonesia -->
+          <div class="phone-item highlight-phone" onclick="openLightbox('sharma/8.jpeg', 'Mak Enak Indonesia - 14.5M & 10.2M Views Viral Reels')">
+            <div class="phone-frame interactive-glow-card animated-gradient-border">
+              <div class="phone-notch"></div>
+              <img src="sharma/8.jpeg" alt="Mak Enak Indonesia Viral 14.5M Views" class="phone-screen">
+              <div class="phone-overlay">
+                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                <span>Klik untuk Memperbesar</span>
+              </div>
+            </div>
+            <div class="phone-label">
+              <strong>@makenakindonesia</strong>
+              <span class="highlight-text"><i class="fa-solid fa-fire"></i> 14.5M & 10.2M Views!</span>
+            </div>
+          </div>
+
+          <!-- Phone 4: Atmosphere Coffee -->
+          <div class="phone-item" onclick="openLightbox('sharma/6.jpeg', 'Atmosphere Coffee Jember - Barista POV & Engagement')">
+            <div class="phone-frame interactive-glow-card">
+              <div class="phone-notch"></div>
+              <img src="sharma/6.jpeg" alt="Atmosphere Coffee Jember" class="phone-screen">
+              <div class="phone-overlay">
+                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                <span>Klik untuk Memperbesar</span>
+              </div>
+            </div>
+            <div class="phone-label">
+              <strong>@atmospherecoffeejember</strong>
+              <span>Barista POV & Eatery</span>
+            </div>
+          </div>
+
+          <!-- Phone 5: Sego Sambel -->
+          <div class="phone-item" onclick="openLightbox('sharma/7.jpeg', 'Sego Sambel Mak Enak - F&B Content')">
+            <div class="phone-frame interactive-glow-card">
+              <div class="phone-notch"></div>
+              <img src="sharma/7.jpeg" alt="Sego Sambel Mak Enak" class="phone-screen">
+              <div class="phone-overlay">
+                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                <span>Klik untuk Memperbesar</span>
+              </div>
+            </div>
+            <div class="phone-label">
+              <strong>@segosambel.makenak</strong>
+              <span>Food & Dining Reels</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 7: MEGA VIRAL ANALYTICS ================= -->
+    <section class="slide-section" id="slide-6" data-index="6">
+      <div class="slide-content viral-slide-layout">
+        <div class="section-header-centered">
+          <div class="section-tag fire-tag"><i class="fa-solid fa-fire"></i> PROOF OF SUCCESS</div>
+          <h2 class="slide-title">VIRAL IMPACT & <span class="highlight">METRIC ANALYTICS</span></h2>
+          <p class="section-subtitle">Data riil performa konten yang berhasil mencuri perhatian jutaan pengguna media sosial.</p>
+        </div>
+
+        <div class="viral-stats-banner">
+          <div class="stat-box interactive-glow-card">
+            <span class="stat-num counter-anim" data-target="14500000">14.5M+</span>
+            <span class="stat-label">Top Reel #1 (Mak Enak)</span>
+            <span class="stat-sub">"POV: Cara menolak atasan"</span>
+          </div>
+          <div class="stat-box interactive-glow-card">
+            <span class="stat-num counter-anim" data-target="10200000">10.2M+</span>
+            <span class="stat-label">Top Reel #2 (Mak Enak)</span>
+            <span class="stat-sub">"Bener gak sih?"</span>
+          </div>
+          <div class="stat-box interactive-glow-card">
+            <span class="stat-num counter-anim" data-target="688000">688K+</span>
+            <span class="stat-label">Top Reel #3 (Operasional)</span>
+            <span class="stat-sub">Kue Kacang Jember</span>
+          </div>
+          <div class="stat-box interactive-glow-card">
+            <span class="stat-num counter-anim" data-target="103000">103K+</span>
+            <span class="stat-label">Galgok Coffee Reels</span>
+            <span class="stat-sub">"Pesanan Rahasia"</span>
+          </div>
+        </div>
+
+        <div class="viral-proof-showcase">
+          <div class="proof-card interactive-glow-card" onclick="openLightbox('sharma/8.jpeg', 'Mak Enak Indonesia Viral Reels View Proof')">
+            <img src="sharma/8.jpeg" alt="Mak Enak Indonesia Viral Proof" class="proof-img">
+            <div class="proof-info">
+              <h3>Mak Enak Indonesia Reels</h3>
+              <p>Reels bernada komedi situasional dan interaksi karyawan yang sangat relevan (*relatable*), membuktikan kepiawaian meramu hook dan konten yang mudah di-share jutaan orang.</p>
+              <div class="proof-stats-tags">
+                <span class="glow-hover">🔥 14,5 JUTA Tayangan</span>
+                <span class="glow-hover">🔥 10,2 JUTA Tayangan</span>
+                <span class="glow-hover">🔥 688 RIBU Tayangan</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="proof-card interactive-glow-card" onclick="openLightbox('sharma/9.jpeg', 'Galgok Coffee & Eatery Reels View Proof')">
+            <img src="sharma/9.jpeg" alt="Galgok Coffee Reels Proof" class="proof-img">
+            <div class="proof-info">
+              <h3>Galgok Coffee & Eatery Reels</h3>
+              <p>Konten kafe yang mengangkat rasa penasaran pengunjung terhadap 'secret menu', mendongkrak visibilitas kafe dan engagement lokal Banyuwangi.</p>
+              <div class="proof-stats-tags">
+                <span class="glow-hover">⚡ 103 RIBU Tayangan</span>
+                <span class="glow-hover">⚡ 2.913 Interaksi</span>
+                <span class="glow-hover">⚡ Kunjungan meningkat</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 8: VIDEO EDITING & BTS ================= -->
+    <section class="slide-section" id="slide-7" data-index="7">
+      <div class="slide-content video-slide-layout">
+        <div class="video-text-col">
+          <div class="section-tag"><i class="fa-solid fa-film"></i> SHOWCASE PRODUKSI</div>
+          <h2 class="slide-title">JASA EDITING VIDEO & <br><span class="highlight">BEHIND THE SCENE</span></h2>
+          <p class="video-lead">
+            Keahlian editing bukan hanya soal memotong klip, melainkan merangkai emosi, menjaga atensi penonton di setiap detiknya, serta menyelaraskan visual dengan ketukan nada audio.
+          </p>
+
+          <div class="editing-workflow-list">
+            <div class="workflow-step interactive-glow-card">
+              <span class="step-num">01</span>
+              <div>
+                <h4>Hook & Pacing Selection</h4>
+                <p>Memilih 3 detik pertama paling menarik untuk mencegah penonton men-scroll.</p>
+              </div>
+            </div>
+            <div class="workflow-step interactive-glow-card">
+              <span class="step-num">02</span>
+              <div>
+                <h4>Rhythm & Sound Design</h4>
+                <p>Sinkronisasi beat audio, efek suara (SFX) halus, dan pemilihan musik yang sedang tren.</p>
+              </div>
+            </div>
+            <div class="workflow-step interactive-glow-card">
+              <span class="step-num">03</span>
+              <div>
+                <h4>Enhancement & Color Grading</h4>
+                <p>Penyempurnaan kejernihan visual menggunakan Wink & Meitu, serta tone warna Lightroom.</p>
+              </div>
+            </div>
+            <div class="workflow-step interactive-glow-card">
+              <span class="step-num">04</span>
+              <div>
+                <h4>Kinetic Typography & Captions</h4>
+                <p>Subtitle dinamis yang mudah dibaca tanpa mengganggu fokus utama video.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="video-order-box interactive-glow-card">
+            <p>Punya rekaman video mentah yang butuh diolah jadi konten estetik atau viral?</p>
+            <button class="btn btn-primary gradient-hover-btn" onclick="openWhatsApp('Halo Sharma, saya punya video mentah dan ingin pesan jasa editing...')">
+              <i class="fa-brands fa-whatsapp"></i> Pesan Jasa Editing Sekarang
+            </button>
+          </div>
+        </div>
+
+        <div class="video-player-col">
+          <div class="video-mockup-frame interactive-glow-card">
+            <div class="mockup-header">
+              <span class="mockup-dot red"></span>
+              <span class="mockup-dot yellow"></span>
+              <span class="mockup-dot green"></span>
+              <span class="mockup-title">sharma_photoshoot_bts.mp4</span>
+            </div>
+            <div class="video-container">
+              <video id="portfolioVideo" playsinline preload="metadata" poster="sharma/3.jpeg">
+                <source src="sharma/video1.mp4" type="video/mp4">
+                Browser Anda tidak mendukung pemutar video.
+              </video>
+              <div class="custom-video-overlay" id="videoOverlay">
+                <button class="custom-play-btn" id="playBtn" aria-label="Play Video">
+                  <i class="fa-solid fa-play"></i>
+                </button>
+              </div>
+              <div class="custom-video-controls">
+                <button id="miniPlayBtn" class="ctrl-btn"><i class="fa-solid fa-play"></i></button>
+                <div class="video-progress-bar" id="progressBar">
+                  <div class="progress-filled" id="progressFilled"></div>
+                </div>
+                <button id="muteBtn" class="ctrl-btn"><i class="fa-solid fa-volume-high"></i></button>
+                <button id="fullscreenBtn" class="ctrl-btn"><i class="fa-solid fa-expand"></i></button>
+              </div>
+            </div>
+            <div class="video-caption-bar">
+              <i class="fa-solid fa-camera"></i> Behind The Scene Photoshoot Sharma • Model & Talent Project
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 9: KOL & ENDORSEMENT GALLERY ================= -->
+    <section class="slide-section" id="slide-8" data-index="8">
+      <div class="slide-content gallery-slide-layout">
+        <div class="section-header-centered">
+          <div class="section-tag">KOL & TALENT</div>
+          <h2 class="slide-title">FASHION, LIFESTYLE & <span class="highlight">ENDORSEMENT</span></h2>
+          <p class="section-subtitle">Tampil representatif untuk berbagai kategori brand: Fashion Muslim, F&B, Aksesoris, Lifestyle, hingga Photoshoot Studio.</p>
+        </div>
+
+        <div class="gallery-grid-cards">
+          <!-- Card 1 -->
+          <div class="gallery-card interactive-glow-card" onclick="openLightbox('sharma/2.jpeg', 'Fashion & Bag Endorsement - Jims Honey Style')">
+            <img src="sharma/2.jpeg" alt="Sharma OOTD Fashion & Bag Endorse" class="gallery-img">
+            <div class="gallery-card-info">
+              <span class="category-chip">FASHION & BAG</span>
+              <h4>Modern Chic OOTD</h4>
+              <p>Style endorsement untuk brand tas, kacamata, dan outfit kasual elegan.</p>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="gallery-card interactive-glow-card" onclick="openLightbox('sharma/4.jpeg', 'Cafe Ambience & F&B Review - Chanme Studio')">
+            <img src="sharma/4.jpeg" alt="Sharma Cafe Review at Chanme Studio" class="gallery-img">
+            <div class="gallery-card-info">
+              <span class="category-chip">CAFE & LIFESTYLE</span>
+              <h4>Store & Cafe Ambience</h4>
+              <p>Promosi lokasi hangout estetik dengan gaya streetwear yang dinamis.</p>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="gallery-card interactive-glow-card" onclick="openLightbox('sharma/3.jpeg', 'Formal Talent & Traditional Attire - Bostera Shoot')">
+            <img src="sharma/3.jpeg" alt="Sharma Kebaya & Traditional Attire" class="gallery-img">
+            <div class="gallery-card-info">
+              <span class="category-chip">FORMAL & WEDDING</span>
+              <h4>Traditional & Prewedding</h4>
+              <p>Talent photoshoot untuk busana adat nusantara, kebaya, dan riasan profesional.</p>
+            </div>
+          </div>
+
+          <!-- Card 4 (Upright Close-up Selfie) -->
+          <div class="gallery-card interactive-glow-card" onclick="openLightbox('sharma/1.jpeg', 'Beauty & Hijab Profile')">
+            <img src="sharma/1.jpeg" alt="Sharma Hijab Close-up Portrait" class="gallery-img">
+            <div class="gallery-card-info">
+              <span class="category-chip">BEAUTY & SKINCARE</span>
+              <h4>Close-Up Portrait</h4>
+              <p>Siap untuk kolaborasi produk kecantikan, hijab styling, dan skincare review.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="management-note interactive-glow-card">
+          <i class="fa-solid fa-handshake"></i>
+          <span>Menerima endorsement personal langsung maupun melalui talent management. Terbuka untuk barter review, paid endorse, dan kontrak bulanan.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 10: CONTACT & CLOSING ================= -->
+    <section class="slide-section" id="slide-9" data-index="9">
+      <div class="slide-content contact-slide-layout" id="contact">
+        <div class="contact-card-main interactive-glow-card">
+          <div class="contact-left-col">
+            <div class="section-tag">LET'S CONNECT</div>
+            <h2 class="slide-title">KEEP IN TOUCH <br><span class="highlight">WITH ME!</span></h2>
+            <p class="contact-desc">
+              Siap berkolaborasi untuk meningkatkan citra digital brand Anda, memproduksi video viral, atau memesan jasa editing profesional. Jangan ragu untuk mendiskusikan ide Anda!
+            </p>
+
+            <div class="contact-links-list">
+              <!-- WhatsApp +62 812-5203-7392 -->
+              <a href="https://wa.me/6281252037392?text=Halo%20Sharma,%20saya%20tertarik%20bekerjasama" target="_blank" class="contact-item interactive-glow-card" id="whatsappDirectLink">
+                <div class="contact-icon wa-bg"><i class="fa-brands fa-whatsapp"></i></div>
+                <div>
+                  <span class="contact-type">WhatsApp (Fast Response)</span>
+                  <span class="contact-value">+62 812-5203-7392</span>
+                </div>
+              </a>
+
+              <!-- Instagram @sharmasafitri -->
+              <a href="https://www.instagram.com/sharmasafitri?psln=MWlxbXBrOWdpa3ppaw==" target="_blank" class="contact-item interactive-glow-card">
+                <div class="contact-icon ig-bg"><i class="fa-brands fa-instagram"></i></div>
+                <div>
+                  <span class="contact-type">Instagram</span>
+                  <span class="contact-value">@sharmasafitri</span>
+                </div>
+              </a>
+
+              <!-- TikTok @four.febb -->
+              <a href="https://www.tiktok.com/@four.febb?_r=1&_t=ZS-9AqvJ9cGLFV" target="_blank" class="contact-item interactive-glow-card">
+                <div class="contact-icon tt-bg"><i class="fa-brands fa-tiktok"></i></div>
+                <div>
+                  <span class="contact-type">TikTok</span>
+                  <span class="contact-value">@four.febb</span>
+                </div>
+              </a>
+
+              <div class="contact-item interactive-glow-card">
+                <div class="contact-icon mail-bg"><i class="fa-solid fa-location-dot"></i></div>
+                <div>
+                  <span class="contact-type">Lokasi & Jangkauan</span>
+                  <span class="contact-value">Banyuwangi & Jember (Online / Remote Worldwide)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-right-col">
+            <div class="interactive-form-box interactive-glow-card">
+              <h3 class="form-title"><i class="fa-solid fa-paper-plane"></i> Kirim Pesan Cepat ke WhatsApp</h3>
+              <p class="form-sub">Pilih jenis kebutuhan Anda untuk langsung membuka template chat WhatsApp ke <strong>+62 812-5203-7392</strong>.</p>
+              
+              <form id="quickContactForm" onsubmit="handleFormSubmit(event)">
+                <div class="form-group">
+                  <label for="senderName">Nama / Nama Brand Anda:</label>
+                  <input type="text" id="senderName" class="form-input" placeholder="Misal: Dimas - Galgok Cafe" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="serviceType">Layanan yang Diinginkan:</label>
+                  <select id="serviceType" class="form-input">
+                    <option value="Jasa Editing Video (Reels/TikTok)">Jasa Editing Video (Reels / TikTok / Shorts)</option>
+                    <option value="Talent & Endorsement Produk">Talent On-Cam & Endorsement Produk</option>
+                    <option value="Social Media Management Lengkap">Social Media Management Lengkap</option>
+                    <option value="Photoshoot Studio / Store Visit">Photoshoot Studio / Store Visit</option>
+                    <option value="Diskusi & Konsultasi Lainnya">Diskusi & Konsultasi Lainnya</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="messageBrief">Pesan Singkat / Detail:</label>
+                  <textarea id="messageBrief" class="form-input" rows="3" placeholder="Ceritakan konsep atau durasi video yang ingin dibuat..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-whatsapp-submit gradient-hover-btn">
+                  <i class="fa-brands fa-whatsapp"></i> Chat WhatsApp (+62 812-5203-7392)
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <footer class="deck-footer-note">
+          <p>© 2026 Sharma Dian Safiri, S.E. • All Rights Reserved • Crafted with Creative Passion</p>
+        </footer>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Unified Deck Floating Controls (Bottom Bar in Deck Mode) -->
+  <div class="deck-controls-bar" id="deckControls">
+    <div class="controls-left">
+      <button class="deck-nav-btn prev-btn glow-hover" id="prevSlideBtn" title="Slide Sebelumnya (Panah Kiri)">
+        <i class="fa-solid fa-chevron-left"></i>
+        <span class="dock-hover-tooltip" id="dockPrevTooltip">
+          <span class="tooltip-micro-tag">Sebelumnya</span>
+          <span class="tooltip-micro-title" id="dockPrevTitle">Cover</span>
+        </span>
+      </button>
+      <div class="slide-counter">
+        <span id="currentSlideNum">01</span> / <span id="totalSlidesNum">10</span>
+      </div>
+      <button class="deck-nav-btn next-btn glow-hover" id="nextSlideBtn" title="Slide Selanjutnya (Panah Kanan)">
+        <i class="fa-solid fa-chevron-right"></i>
+        <span class="dock-hover-tooltip" id="dockNextTooltip">
+          <span class="tooltip-micro-tag">Selanjutnya</span>
+          <span class="tooltip-micro-title" id="dockNextTitle">About Me</span>
+        </span>
+      </button>
+    </div>
+
+    <!-- Slide Indicators / Dots (Desktop) -->
+    <div class="deck-dots-wrapper" id="deckDots">
+      <!-- Dots populated by JavaScript -->
+    </div>
+
+    <div class="controls-right">
+      <button class="deck-action-btn glow-hover" id="autoplayBtn" title="Mulai / Jeda Autoplay Slide">
+        <i class="fa-solid fa-play" id="autoplayIcon"></i>
+        <span class="desktop-only-text">Auto</span>
+      </button>
+      <!-- Quick Theme Switch inside bottom bar for mobile & desktop -->
+      <button class="deck-action-btn glow-hover theme-dock-btn" id="dockThemeBtn" title="Ganti Mode Gelap / Terang">
+        <i class="fa-solid fa-moon" id="dockThemeIcon"></i>
+      </button>
+      <!-- Quick WhatsApp CTA inside bottom bar for mobile -->
+      <a href="https://wa.me/6281252037392?text=Halo%20Sharma,%20saya%20tertarik%20bekerjasama" target="_blank" class="deck-action-btn wa-dock-btn glow-hover" title="Order / Chat WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span>Chat</span>
+      </a>
+      <button class="deck-action-btn glow-hover desktop-only-btn" id="fullscreenDeckBtn" title="Layar Penuh">
+        <i class="fa-solid fa-expand"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Lightbox Modal for Full View Images -->
+  <div class="lightbox-modal" id="lightboxModal" aria-hidden="true">
+    <button class="lightbox-close-btn" id="closeLightboxBtn" title="Tutup">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="lightbox-content-box">
+      <img src="" alt="Preview Besar" id="lightboxImage" class="lightbox-img">
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
