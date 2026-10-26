@@ -1,5 +1,5 @@
 /**
- * SHARMA DIAN SAFIRI, S.E. — CREATIVE PORTOFOLIO JAVASCRIPT
+ * SHARMA DIAN SAFITRI, S.E. — CREATIVE PORTOFOLIO JAVASCRIPT
  * Features:
  * - Light & Dark Mode Engine (Local Storage + System Preference + Meta Theme Color)
  * - iOS & Android Mobile Navigation (Story Bar, Tap Zones, Touch Swipe, Haptic Feedback)
@@ -324,36 +324,198 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ---------------------------------------------------------
-  // 6. Touch Gestures (Swipe for Mobile iOS & Android)
+  // 6. Touch Gestures & Movable Pagination Dock (Versi Mobile & Desktop)
+  // - Swipe ganti halaman layar telah dimatikan agar card bisa bebas di-scroll.
+  // - Tombol paginasi dock (< 01/10 > Chat) kini BISA DI-PINDAH-PINDAH / DRAGGABLE
+  //   secara leluasa ke posisi mana pun di layar agar tidak menghalangi foto/konten.
+  // - Double-tap / double-click pada grip atau counter akan me-reset dock ke tengah bawah.
   // ---------------------------------------------------------
-  let touchStartX = 0;
-  let touchStartY = 0;
-  let touchEndX = 0;
-  let touchEndY = 0;
+  const deckControls = document.getElementById('deckControls');
+  const dockDragHandle = document.getElementById('dockDragHandle');
 
-  document.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-    touchStartY = e.changedTouches[0].screenY;
-  }, { passive: true });
+  if (deckControls) {
+    let isDragging = false;
+    let isPointerDown = false;
+    let startX = 0;
+    let startY = 0;
+    let initialLeft = 0;
+    let initialTop = 0;
+    let hasMoved = false;
+    let currentPointerId = null;
+    const DRAG_THRESHOLD = 6;
 
-  document.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    touchEndY = e.changedTouches[0].screenY;
-    handleTouchSwipe();
-  }, { passive: true });
+    // Restore saved dock position if available
+    try {
+      const savedPos = sessionStorage.getItem('sharma_dock_pos');
+      if (savedPos) {
+        const { x, y } = JSON.parse(savedPos);
+        const rect = deckControls.getBoundingClientRect();
+        const minX = 8;
+        const maxX = window.innerWidth - rect.width - 8;
+        const minY = 56;
+        const maxY = window.innerHeight - rect.height - 8;
 
-  function handleTouchSwipe() {
-    if (!document.body.classList.contains('deck-mode')) return;
-    const diffX = touchEndX - touchStartX;
-    const diffY = touchEndY - touchStartY;
-
-    if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY)) {
-      if (diffX < 0) {
-        nextSlide();
-      } else {
-        prevSlide();
+        if (maxX > minX && maxY > minY) {
+          const clampedX = Math.max(minX, Math.min(x, maxX));
+          const clampedY = Math.max(minY, Math.min(y, maxY));
+          deckControls.classList.add('is-dragged');
+          deckControls.style.setProperty('left', `${clampedX}px`, 'important');
+          deckControls.style.setProperty('top', `${clampedY}px`, 'important');
+          deckControls.style.setProperty('bottom', 'auto', 'important');
+          deckControls.style.setProperty('transform', 'none', 'important');
+        }
       }
+    } catch (e) {}
+
+    // Pointer events for dragging
+    deckControls.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+
+      isPointerDown = true;
+      hasMoved = false;
+      isDragging = false;
+      startX = e.clientX;
+      startY = e.clientY;
+      currentPointerId = e.pointerId;
+
+      const rect = deckControls.getBoundingClientRect();
+      initialLeft = rect.left;
+      initialTop = rect.top;
+
+      try {
+        deckControls.setPointerCapture(e.pointerId);
+      } catch (err) {}
+    });
+
+    deckControls.addEventListener('pointermove', (e) => {
+      if (!isPointerDown) return;
+
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+
+      if (!isDragging && Math.hypot(dx, dy) > DRAG_THRESHOLD) {
+        isDragging = true;
+        hasMoved = true;
+        deckControls.classList.add('is-dragging', 'is-dragged');
+        if (navigator.vibrate) {
+          try { navigator.vibrate(8); } catch (v) {}
+        }
+      }
+
+      if (isDragging) {
+        e.preventDefault();
+        const rect = deckControls.getBoundingClientRect();
+        const dockW = rect.width;
+        const dockH = rect.height;
+
+        const targetX = initialLeft + dx;
+        const targetY = initialTop + dy;
+
+        const minX = 8;
+        const maxX = window.innerWidth - dockW - 8;
+        const minY = 56; // below header navbar
+        const maxY = window.innerHeight - dockH - 8;
+
+        const clampedX = Math.max(minX, Math.min(targetX, maxX));
+        const clampedY = Math.max(minY, Math.min(targetY, maxY));
+
+        deckControls.style.setProperty('left', `${clampedX}px`, 'important');
+        deckControls.style.setProperty('top', `${clampedY}px`, 'important');
+        deckControls.style.setProperty('bottom', 'auto', 'important');
+        deckControls.style.setProperty('transform', 'none', 'important');
+      }
+    });
+
+    const finishDrag = (e) => {
+      if (!isPointerDown) return;
+      isPointerDown = false;
+
+      if (isDragging) {
+        isDragging = false;
+        deckControls.classList.remove('is-dragging');
+
+        try {
+          if (currentPointerId !== null) {
+            deckControls.releasePointerCapture(currentPointerId);
+          }
+        } catch (err) {}
+
+        const rect = deckControls.getBoundingClientRect();
+        try {
+          sessionStorage.setItem('sharma_dock_pos', JSON.stringify({
+            x: Math.round(rect.left),
+            y: Math.round(rect.top)
+          }));
+        } catch (err) {}
+
+        setTimeout(() => {
+          hasMoved = false;
+        }, 120);
+      }
+    };
+
+    deckControls.addEventListener('pointerup', finishDrag);
+    deckControls.addEventListener('pointercancel', finishDrag);
+
+    // Suppress click event on child buttons if drag just happened
+    deckControls.addEventListener('click', (e) => {
+      if (hasMoved) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, true);
+
+    // Reset function
+    const resetDockPosition = () => {
+      deckControls.classList.remove('is-dragged', 'is-dragging');
+      deckControls.style.removeProperty('left');
+      deckControls.style.removeProperty('top');
+      deckControls.style.removeProperty('bottom');
+      deckControls.style.removeProperty('transform');
+      try { sessionStorage.removeItem('sharma_dock_pos'); } catch (e) {}
+      if (navigator.vibrate) {
+        try { navigator.vibrate([10, 30, 10]); } catch (v) {}
+      }
+    };
+
+    if (dockDragHandle) {
+      dockDragHandle.addEventListener('dblclick', resetDockPosition);
     }
+    const slideCounter = deckControls.querySelector('.slide-counter');
+    if (slideCounter) {
+      slideCounter.addEventListener('dblclick', resetDockPosition);
+    }
+
+    // Touch double-tap detector on mobile
+    let lastTap = 0;
+    deckControls.addEventListener('touchend', (e) => {
+      if (hasMoved) return;
+      const now = Date.now();
+      if (now - lastTap < 320) {
+        const isInteractiveBtn = e.target.closest('button, a');
+        if (!isInteractiveBtn) {
+          resetDockPosition();
+        }
+      }
+      lastTap = now;
+    });
+
+    // Re-clamp position on window resize or orientation flip
+    window.addEventListener('resize', () => {
+      if (!deckControls.classList.contains('is-dragged')) return;
+      const rect = deckControls.getBoundingClientRect();
+      const minX = 8;
+      const maxX = window.innerWidth - rect.width - 8;
+      const minY = 56;
+      const maxY = window.innerHeight - rect.height - 8;
+
+      if (rect.left > maxX || rect.top > maxY || rect.left < minX || rect.top < minY) {
+        const clampedX = Math.max(minX, Math.min(rect.left, maxX));
+        const clampedY = Math.max(minY, Math.min(rect.top, maxY));
+        deckControls.style.setProperty('left', `${clampedX}px`, 'important');
+        deckControls.style.setProperty('top', `${clampedY}px`, 'important');
+      }
+    });
   }
 
   // ---------------------------------------------------------
@@ -566,7 +728,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (target >= 1000000) {
           counter.textContent = (current / 1000000).toFixed(1) + 'M+';
         } else if (target >= 1000) {
-          counter.textContent = Math.floor(current / 1000) + 'K+';
+          if (target % 1000 !== 0 && target < 100000) {
+            counter.textContent = (current / 1000).toFixed(1) + 'K+';
+          } else {
+            counter.textContent = Math.floor(current / 1000) + 'K+';
+          }
         } else {
           counter.textContent = current;
         }
@@ -681,7 +847,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const service = document.getElementById('serviceType').value;
     const brief = document.getElementById('messageBrief').value.trim();
 
-    let message = `Halo Sharma Dian Safiri, perkenalkan saya *${name}*.\n\n`;
+    let message = `Halo Sharma Dian Safitri, perkenalkan saya *${name}*.\n\n`;
     message += `Saya tertarik untuk konsultasi / order layanan: *${service}*.\n`;
     if (brief) {
       message += `Detail kebutuhan:\n"${brief}"\n\n`;
