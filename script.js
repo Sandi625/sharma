@@ -324,25 +324,24 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ---------------------------------------------------------
-  // 6. Touch Gestures & Movable Pagination Dock (Versi Mobile & Desktop)
-  // - Swipe ganti halaman layar telah dimatikan agar card bisa bebas di-scroll.
-  // - Tombol paginasi dock (< 01/10 > Chat) kini BISA DI-PINDAH-PINDAH / DRAGGABLE
-  //   secara leluasa ke posisi mana pun di layar agar tidak menghalangi foto/konten.
-  // - Double-tap / double-click pada grip atau counter akan me-reset dock ke tengah bawah.
+  // 6. Universal Draggable Pagination Dock (Touch Anywhere)
+  // Sentuh di mana saja pada paginasi untuk langsung menggeser/memindahkan dock,
+  // tanpa harus menekan tombol atau area samping terlebih dahulu.
+  // - Sentuh & geser dari area mana pun pada kapsul langsung bergerak instan & mulus.
+  // - Tap normal (< 4px gerakan) tetap mengeksekusi fungsi tombol (<, >, Chat, dll).
+  // - Double-tap pada area dock me-reset dock kembali ke tengah bawah.
   // ---------------------------------------------------------
   const deckControls = document.getElementById('deckControls');
-  const dockDragHandle = document.getElementById('dockDragHandle');
 
   if (deckControls) {
     let isDragging = false;
-    let isPointerDown = false;
+    let isTouchActive = false;
     let startX = 0;
     let startY = 0;
     let initialLeft = 0;
     let initialTop = 0;
     let hasMoved = false;
-    let currentPointerId = null;
-    const DRAG_THRESHOLD = 6;
+    const DRAG_THRESHOLD = 4; // Sangat responsif: sentuh & geser langsung jalan
 
     // Restore saved dock position if available
     try {
@@ -367,78 +366,67 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (e) {}
 
-    // Pointer events for dragging
-    deckControls.addEventListener('pointerdown', (e) => {
-      if (e.pointerType === 'mouse' && e.button !== 0) return;
+    function getClampedPos(targetX, targetY) {
+      const rect = deckControls.getBoundingClientRect();
+      const minX = 8;
+      const maxX = window.innerWidth - rect.width - 8;
+      const minY = 56; // below header navbar
+      const maxY = window.innerHeight - rect.height - 8;
 
-      isPointerDown = true;
+      return {
+        x: Math.max(minX, Math.min(targetX, maxX)),
+        y: Math.max(minY, Math.min(targetY, maxY))
+      };
+    }
+
+    function applyDockPosition(x, y) {
+      deckControls.style.setProperty('left', `${x}px`, 'important');
+      deckControls.style.setProperty('top', `${y}px`, 'important');
+      deckControls.style.setProperty('bottom', 'auto', 'important');
+      deckControls.style.setProperty('transform', 'none', 'important');
+    }
+
+    function onDragStart(clientX, clientY) {
+      isTouchActive = true;
       hasMoved = false;
       isDragging = false;
-      startX = e.clientX;
-      startY = e.clientY;
-      currentPointerId = e.pointerId;
+      startX = clientX;
+      startY = clientY;
 
       const rect = deckControls.getBoundingClientRect();
       initialLeft = rect.left;
       initialTop = rect.top;
+    }
 
-      try {
-        deckControls.setPointerCapture(e.pointerId);
-      } catch (err) {}
-    });
+    function onDragMove(clientX, clientY, e) {
+      if (!isTouchActive) return;
 
-    deckControls.addEventListener('pointermove', (e) => {
-      if (!isPointerDown) return;
-
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
+      const dx = clientX - startX;
+      const dy = clientY - startY;
 
       if (!isDragging && Math.hypot(dx, dy) > DRAG_THRESHOLD) {
         isDragging = true;
         hasMoved = true;
         deckControls.classList.add('is-dragging', 'is-dragged');
         if (navigator.vibrate) {
-          try { navigator.vibrate(8); } catch (v) {}
+          try { navigator.vibrate(6); } catch (v) {}
         }
       }
 
       if (isDragging) {
-        e.preventDefault();
-        const rect = deckControls.getBoundingClientRect();
-        const dockW = rect.width;
-        const dockH = rect.height;
-
-        const targetX = initialLeft + dx;
-        const targetY = initialTop + dy;
-
-        const minX = 8;
-        const maxX = window.innerWidth - dockW - 8;
-        const minY = 56; // below header navbar
-        const maxY = window.innerHeight - dockH - 8;
-
-        const clampedX = Math.max(minX, Math.min(targetX, maxX));
-        const clampedY = Math.max(minY, Math.min(targetY, maxY));
-
-        deckControls.style.setProperty('left', `${clampedX}px`, 'important');
-        deckControls.style.setProperty('top', `${clampedY}px`, 'important');
-        deckControls.style.setProperty('bottom', 'auto', 'important');
-        deckControls.style.setProperty('transform', 'none', 'important');
+        if (e && e.cancelable) e.preventDefault();
+        const pos = getClampedPos(initialLeft + dx, initialTop + dy);
+        applyDockPosition(pos.x, pos.y);
       }
-    });
+    }
 
-    const finishDrag = (e) => {
-      if (!isPointerDown) return;
-      isPointerDown = false;
+    function onDragEnd() {
+      if (!isTouchActive) return;
+      isTouchActive = false;
 
       if (isDragging) {
         isDragging = false;
         deckControls.classList.remove('is-dragging');
-
-        try {
-          if (currentPointerId !== null) {
-            deckControls.releasePointerCapture(currentPointerId);
-          }
-        } catch (err) {}
 
         const rect = deckControls.getBoundingClientRect();
         try {
@@ -450,14 +438,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(() => {
           hasMoved = false;
-        }, 120);
+        }, 150);
       }
-    };
+    }
 
-    deckControls.addEventListener('pointerup', finishDrag);
-    deckControls.addEventListener('pointercancel', finishDrag);
+    // Touch Events on Mobile (Direct, instant & butter-smooth)
+    deckControls.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) return;
+      const t = e.touches[0];
+      onDragStart(t.clientX, t.clientY);
+    }, { passive: true });
 
-    // Suppress click event on child buttons if drag just happened
+    window.addEventListener('touchmove', (e) => {
+      if (!isTouchActive) return;
+      if (e.touches.length !== 1) return;
+      const t = e.touches[0];
+      onDragMove(t.clientX, t.clientY, e);
+    }, { passive: false });
+
+    window.addEventListener('touchend', () => {
+      onDragEnd();
+    }, { passive: true });
+
+    window.addEventListener('touchcancel', () => {
+      onDragEnd();
+    }, { passive: true });
+
+    // Mouse Events for Desktop drag
+    deckControls.addEventListener('mousedown', (e) => {
+      if (e.button !== 0) return;
+      onDragStart(e.clientX, e.clientY);
+
+      const onMouseMove = (moveEvt) => {
+        onDragMove(moveEvt.clientX, moveEvt.clientY, moveEvt);
+      };
+
+      const onMouseUp = () => {
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onMouseUp);
+        onDragEnd();
+      };
+
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onMouseUp);
+    });
+
+    // Suppress click on buttons if user was dragging
     deckControls.addEventListener('click', (e) => {
       if (hasMoved) {
         e.preventDefault();
@@ -465,7 +491,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, true);
 
-    // Reset function
+    // Double-tap or double-click to reset back to default bottom center
     const resetDockPosition = () => {
       deckControls.classList.remove('is-dragged', 'is-dragging');
       deckControls.style.removeProperty('left');
@@ -478,15 +504,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    if (dockDragHandle) {
-      dockDragHandle.addEventListener('dblclick', resetDockPosition);
-    }
-    const slideCounter = deckControls.querySelector('.slide-counter');
-    if (slideCounter) {
-      slideCounter.addEventListener('dblclick', resetDockPosition);
-    }
-
-    // Touch double-tap detector on mobile
     let lastTap = 0;
     deckControls.addEventListener('touchend', (e) => {
       if (hasMoved) return;
@@ -500,21 +517,19 @@ document.addEventListener('DOMContentLoaded', () => {
       lastTap = now;
     });
 
-    // Re-clamp position on window resize or orientation flip
+    deckControls.addEventListener('dblclick', (e) => {
+      const isInteractiveBtn = e.target.closest('button, a');
+      if (!isInteractiveBtn) {
+        resetDockPosition();
+      }
+    });
+
+    // Window resize / orientation flip
     window.addEventListener('resize', () => {
       if (!deckControls.classList.contains('is-dragged')) return;
       const rect = deckControls.getBoundingClientRect();
-      const minX = 8;
-      const maxX = window.innerWidth - rect.width - 8;
-      const minY = 56;
-      const maxY = window.innerHeight - rect.height - 8;
-
-      if (rect.left > maxX || rect.top > maxY || rect.left < minX || rect.top < minY) {
-        const clampedX = Math.max(minX, Math.min(rect.left, maxX));
-        const clampedY = Math.max(minY, Math.min(rect.top, maxY));
-        deckControls.style.setProperty('left', `${clampedX}px`, 'important');
-        deckControls.style.setProperty('top', `${clampedY}px`, 'important');
-      }
+      const pos = getClampedPos(rect.left, rect.top);
+      applyDockPosition(pos.x, pos.y);
     });
   }
 

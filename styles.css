@@ -5065,50 +5065,20 @@ body.dark-theme .desktop-cover-visual .floating-badge {
 
 
 /* ==========================================================================
-   DRAGGABLE & MOVABLE FLOATING PAGINATION DOCK (Mobile & Touch)
+   DRAGGABLE & MOVABLE FLOATING PAGINATION DOCK (Touch Anywhere)
    ========================================================================== */
-.dock-drag-handle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 14px;
-  height: 28px;
-  cursor: grab;
-  color: var(--color-text-muted, #8a7a80);
-  opacity: 0.55;
-  transition: opacity 0.2s ease, color 0.2s ease, transform 0.15s ease;
-  margin-right: -2px;
-  margin-left: -2px;
-  flex-shrink: 0;
-  user-select: none;
-  touch-action: none;
-}
-
-.dock-drag-handle:hover,
-.dock-drag-handle:active {
-  opacity: 1;
-  color: var(--color-primary, #b55465);
-}
-
-.dock-drag-handle i {
-  font-size: 0.8rem;
-  pointer-events: none;
-}
-
-body.dark-theme .dock-drag-handle {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-body.dark-theme .dock-drag-handle:hover,
-body.dark-theme .dock-drag-handle:active {
-  color: #ff758c;
-}
-
-/* Movable Dock Dynamic Dragging States */
 .deck-controls-bar {
-  touch-action: pan-x pan-y;
-  user-select: none;
-  -webkit-user-select: none;
+  cursor: grab;
+  touch-action: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+
+.deck-controls-bar * {
+  touch-action: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
 }
 
 .deck-controls-bar.is-dragged {
